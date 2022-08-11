@@ -40,13 +40,13 @@ class Player:
         if pos == 'A':
             self._start = 1
             self._end = 50
-        if pos == 'B':
+        elif pos == 'B':
             self._start = 15
             self._end = 8
-        if pos == 'C':
+        elif pos == 'C':
             self._start = 29
             self._end = 22
-        if pos == 'D':
+        else:
             self._start = 43
             self._end = 36
 
@@ -147,7 +147,7 @@ class Player:
         elif current == 57:
             return 'E'
         elif current > 50:
-            return self._position + (current % 50)
+            return str(self._position) + str(current % 50)
         else:
             return (current + self._start - 1) % 56
 
@@ -196,22 +196,22 @@ class LudoGame:
                     player.set_step_p(1)
                     player.set_current_p(step_p)
                     print('start p')
-                    pass
+                    continue
                 elif step_q == -1:
                     step_q += 1
                     player.set_step_q(1)
                     player.set_current_q(step_q)
                     print('start q')
-                    pass
+                    continue
 
             # otherwise
             if step_p + roll == 57:
                 self.move_token(player, 'p', roll)
             elif step_q + roll == 57:
                 self.move_token(player, 'q', roll)
-            elif self._board[step_p + roll] is not None and step_p + roll != step_q:
+            elif self._board[step_p + roll] != 0 and step_p + roll != step_q:
                 self.move_token(player, 'p', roll)
-            elif self._board[step_q + roll] is not None and step_q + roll != step_p:
+            elif self._board[step_q + roll] != 0 and step_q + roll != step_p:
                 self.move_token(player, 'q', roll)
             else:
                 if step_p == -1:
@@ -237,6 +237,9 @@ class LudoGame:
         else:
             return "Player not found!"
 
+    def get_board(self):
+        return self._board
+
     def move_token(self, player, token, step):
         """
         takes three parameters: player, token, and moving step
@@ -245,13 +248,38 @@ class LudoGame:
         flags stalked if needed
         follows the priority rule
         """
-        pass
+        if token == 'p':
+            old_board = (player.get_token_p_step_count() + player.get_start()) % 56
+            self._board[old_board] = 0
+            player.set_step_p(step)
+            player.set_current_p(player.get_token_p_step_count())
+            total_step = player.get_token_p_step_count()
+            current_board = (total_step + player.get_start()) % 56
+            if self._board[current_board] == 0:
+                self._board[current_board] = [{player.get_position(): token}]
+                print(self._board)
+        else:
+            old_board = (player.get_token_q_step_count() + player.get_start()) % 56
+            self._board[old_board] = 0
+            player.set_step_q(step)
+            player.set_current_q(player.get_token_q_step_count())
+            total_step = player.get_token_q_step_count()
+            current_board = (total_step + player.get_start()) % 56
+            if self._board[current_board] == 0:
+                self._board[current_board] = {player.get_position(): token}
+                print(self._board)
 
 
 players = ['A', 'B']
-turns = [('A', 6), ('A', 4), ('A', 5), ('A', 4),
-         ('B', 6), ('B', 4), ('B', 1), ('B', 2),
-         ('A', 6), ('A', 4), ('A', 6), ('A', 3),
-         ('A', 5), ('A', 1), ('A', 5), ('A', 4)]
+turns = [('A', 6), ('A', 4), ('A', 5), ('A', 4), ('B', 6),
+         ('B', 4), ('B', 1), ('B', 2), ('A', 6), ('A', 4),
+         ('A', 6), ('A', 3), ('A', 5), ('A', 1), ('A', 5), ('A', 4)]
 game = LudoGame()
 current_tokens_space = game.play_game(players, turns)
+player_A = game.get_player_by_position('A')
+print(player_A.get_completed())
+print(player_A.get_token_p_step_count())
+print(current_tokens_space)
+player_B = game.get_player_by_position('B')
+print(player_B.get_space_name(55))
+print(game.get_board())
