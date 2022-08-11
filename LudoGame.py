@@ -149,7 +149,7 @@ class Player:
         elif current > 50:
             return str(self._position) + str(current % 50)
         else:
-            return str((current + self._start - 1) % 56)
+            return str((current + self._start) % 57)
 
 
 class LudoGame:
