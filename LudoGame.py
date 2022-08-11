@@ -188,6 +188,10 @@ class LudoGame:
             step_p = player.get_token_p_step_count()
             step_q = player.get_token_q_step_count()
 
+            if step_p == 57 and step_q == 57:
+                player.set_state()
+                continue
+
             # if roll = 6, let token out if still in home yard
             if roll == 6:
                 if step_p == -1:
@@ -213,9 +217,9 @@ class LudoGame:
             elif self._board[step_q + roll] != 0 and step_q + roll != step_p:
                 self.move_token(player, 'q', roll)
             else:
-                if step_p == -1:
+                if step_p == -1 or step_p == 57:
                     self.move_token(player, 'q', roll)
-                elif step_q == -1:
+                elif step_q == -1 or step_q == 57:
                     self.move_token(player, 'p', roll)
                 elif step_p < step_q:
                     self.move_token(player, 'p', roll)
@@ -274,4 +278,14 @@ class LudoGame:
             if self._board[current_board] == 0:
                 self._board[current_board] = {player.get_position(): token}
 
-
+players = ['A', 'B']
+turns = [('A', 6), ('A', 4), ('A', 5), ('A', 4), ('B', 6), ('B', 4), ('B', 1), ('B', 2), ('A', 6), ('A', 4), ('A', 6), ('A', 3), ('A', 5), ('A', 1), ('A', 5), ('A', 4)]
+game = LudoGame()
+current_tokens_space = game.play_game(players, turns)
+player_A = game.get_player_by_position('A')
+print(player_A.get_completed())
+print(player_A.get_token_p_step_count())
+print(current_tokens_space)
+player_B = game.get_player_by_position('B')
+print(player_B.get_space_name(55))
+print(game.get_board())
