@@ -228,8 +228,8 @@ class LudoGame:
         return_list = []
         for player in self._list_players:
             player = self._list_players[player]
-            return_list.append(player.get_token_p_current())
-            return_list.append(player.get_token_q_current())
+            return_list.append(str(player.get_token_p_current()))
+            return_list.append(str(player.get_token_q_current()))
         return return_list
 
     def get_player_by_position(self, pos):
