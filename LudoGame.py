@@ -184,7 +184,6 @@ class LudoGame:
             who = turn[0]
             player = self._list_players[who]
             roll = turn[1]
-            print(who)
 
             step_p = player.get_token_p_step_count()
             step_q = player.get_token_q_step_count()
@@ -195,13 +194,13 @@ class LudoGame:
                     step_p += 1
                     player.set_step_p(1)
                     player.set_current_p(step_p)
-                    print('start p')
+
                     continue
                 elif step_q == -1:
                     step_q += 1
                     player.set_step_q(1)
                     player.set_current_q(step_q)
-                    print('start q')
+
                     continue
 
             # otherwise
@@ -257,7 +256,7 @@ class LudoGame:
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
                 self._board[current_board] = [{player.get_position(): token}]
-                print(self._board)
+
         else:
             old_board = (player.get_token_q_step_count() + player.get_start()) % 56
             self._board[old_board] = 0
@@ -267,4 +266,4 @@ class LudoGame:
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
                 self._board[current_board] = {player.get_position(): token}
-                print(self._board)
+
