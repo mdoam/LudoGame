@@ -207,26 +207,39 @@ class LudoGame:
 
                     continue
 
-            # otherwise
-            if step_p + roll == 57:
+            if step_p == step_q:
                 self.move_token(player, 'p', roll)
-            elif step_q + roll == 57:
                 self.move_token(player, 'q', roll)
-            elif self._board[step_p + roll] != 0 and step_p + roll != step_q:
+                continue
+
+            if step_p > 50 or step_q > 50:
+                if step_p + roll == 57:
+                    self.move_token(player, 'p', roll)
+                    continue
+
+                if step_q + roll == 57:
+                    self.move_token(player, 'q', roll)
+                    continue
+
+                if step_p > step_q or step_p == 57:
+                    self.move_token(player, 'q', roll)
+                    continue
+                else:
+                    self.move_token(player, 'p', roll)
+                    continue
+
+            if self._board[step_p + roll] != 0 and step_p + roll != step_q:
                 self.move_token(player, 'p', roll)
             elif self._board[step_q + roll] != 0 and step_q + roll != step_p:
                 self.move_token(player, 'q', roll)
             else:
-                if step_p == -1 or step_p == 57:
+                if step_p == -1:
                     self.move_token(player, 'q', roll)
-                elif step_q == -1 or step_q == 57:
+                elif step_q == -1:
                     self.move_token(player, 'p', roll)
                 elif step_p < step_q:
                     self.move_token(player, 'p', roll)
                 elif step_p > step_q:
-                    self.move_token(player, 'q', roll)
-                else:
-                    self.move_token(player, 'p', roll)
                     self.move_token(player, 'q', roll)
 
         return_list = []
@@ -255,8 +268,6 @@ class LudoGame:
         takes three parameters: player, token, and moving step
         updates the token's total steps accordingly
         kicks out opponent's token as needed
-        flags stalked if needed
-        follows the priority rule
         """
         if token == 'p':
             old_board = (player.get_token_p_step_count() + player.get_start()) % 56
@@ -276,6 +287,15 @@ class LudoGame:
             total_step = player.get_token_q_step_count()
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
-                self._board[current_board] = {player.get_position(): token}
+                self._board[current_board] = [{player.get_position(): token}]
 
-
+players = ['A', 'B']
+turns = [('A', 6), ('A', 50), ('A', 5), ('A', 4)]
+game = LudoGame()
+current_tokens_space = game.play_game(players, turns)
+player_A = game.get_player_by_position('A')
+print(player_A.get_completed())
+print(player_A.get_token_p_step_count())
+print(current_tokens_space)
+player_B = game.get_player_by_position('B')
+print(player_B.get_space_name(55))
