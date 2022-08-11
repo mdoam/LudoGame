@@ -225,6 +225,13 @@ class LudoGame:
                     self.move_token(player, 'p', roll)
                     self.move_token(player, 'q', roll)
 
+        return_list = []
+        for player in self._list_players:
+            player = self._list_players[player]
+            return_list.append(player.get_token_p_current())
+            return_list.append(player.get_token_q_current())
+        return return_list
+
     def get_player_by_position(self, pos):
         """
         takes player's position
@@ -266,4 +273,5 @@ class LudoGame:
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
                 self._board[current_board] = {player.get_position(): token}
+
 
