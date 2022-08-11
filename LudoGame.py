@@ -18,12 +18,14 @@ class Player:
         """
         initializes the private data members
         """
-        self._position = None
+        self._position = None  # A, B, C, or D
         self._start = None
         self._end = None
         self._currentP = -1
         self._currentQ = -1
         self._state = False  # F: still playing, T: won and finished the game
+        self._stepP = 0
+        self._stepQ = 0
 
     def set_position(self, pos):
         """
@@ -47,6 +49,24 @@ class Player:
         if pos == 'D':
             self._start = 43
             self._end = 36
+
+    def set_step_p(self, step):
+        """
+        set the total step of token p
+        """
+        self._stepP += step
+        if self._stepP > 57:
+            diff = self._stepP - 57
+            self._stepP = 57 - diff
+
+    def set_step_q(self, step):
+        """
+        set the total step of token p
+        """
+        self._stepQ += step
+        if self._stepQ > 57:
+            diff = self._stepQ - 57
+            self._stepQ = 57 - diff
 
     def set_current_p(self, num):
         """
@@ -73,6 +93,18 @@ class Player:
         """
         return self._position
 
+    def get_start(self):
+        """
+        gets the start position
+        """
+        return self._start
+
+    def get_end(self):
+        """
+        gets the end position
+        """
+        return self._end
+
     def get_completed(self):
         """
         gets the current state of the player: win if true
@@ -84,13 +116,13 @@ class Player:
         """
         returns the total steps the token p has taken on the board
         """
-        return self._currentP
+        return self._stepP
 
     def get_token_q_step_count(self):
         """
         returns the total steps the token q has taken on the board
         """
-        return self._currentQ
+        return self._stepQ
 
     def get_space_name(self, current):
         """
@@ -100,12 +132,12 @@ class Player:
             return 'H'
         elif current == 0:
             return 'R'
-        elif current == 'E':
+        elif current == 57:
             return 'E'
         elif current > 50:
             return self._position + (current % 50)
         else:
-            return str(current)
+            return (current + self._start - 1) % 56
 
 
 class LudoGame:
@@ -117,12 +149,8 @@ class LudoGame:
         """
         initializes the private data members
         """
-        self._list_players = {}
+        self._list_players = {}  #'A': p, q, stacked
         self._board = []
-        self._home_squareA = []
-        self._home_squareB = []
-        self._home_squareC = []
-        self._home_squareD = []
 
     def play_game(self, players_area, turns1):
         """
@@ -166,15 +194,6 @@ class LudoGame:
         follows the priority rule
         """
         pass
-
-
-
-
-
-
-
-
-
 
 
 
