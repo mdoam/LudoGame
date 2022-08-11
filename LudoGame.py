@@ -154,7 +154,7 @@ class Player:
 
 class LudoGame:
     """
-    represents the Ludo game as playing
+    represents the Ludo game as playing g
     contains information about the players and the state of the board
     """
     def __init__(self):
