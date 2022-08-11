@@ -149,12 +149,12 @@ class Player:
         elif current > 50:
             return str(self._position) + str(current % 50)
         else:
-            return str((current + self._start) % 56)
+            return str((current + self._start - 1) % 56)
 
 
 class LudoGame:
     """
-    represents the Ludo game as playing g
+    represents the Ludo game as playing
     contains information about the players and the state of the board
     """
     def __init__(self):
