@@ -5,7 +5,19 @@
 
 
 class Player:
+    """
+    represents the player who plays the Ludo game with two token p and q
+    records the following information about the player:
+    - home yard position ('A', 'B', 'C', 'D')
+    - the current position of each token
+    - the ready to move and final position before entering the home squares
+    - the state of the player: win or lose
+    and methods to get, set, or update these private variables
+    """
     def __init__(self):
+        """
+        initializes the private data members
+        """
         self._position = None
         self._start = None
         self._end = None
@@ -14,9 +26,15 @@ class Player:
         self._state = False  # F: still playing, T: won and finished the game
 
     def set_position(self, pos):
+        """
+        sets player home yard position
+        """
         self._position = pos
 
     def set_start_end(self, pos):
+        """
+        sets the ready and end position before reach home squares
+        """
         if pos == 'A':
             self._start = 1
             self._end = 50
@@ -31,52 +49,88 @@ class Player:
             self._end = 36
 
     def set_current_p(self, num):
+        """
+        set the current position of token p
+        """
         self._currentP = num
 
     def set_current_q(self, num):
+        """
+        set the current position of token q
+        """
         self._currentQ = num
 
     def set_state(self):
+        """
+        sets the state for the player: True if win
+        Otherwise False
+        """
         self._state = True
 
     def get_position(self):
+        """
+        gets the home yard position
+        """
         return self._position
 
     def get_completed(self):
+        """
+        gets the current state of the player: win if true
+        Otherwise, return False
+        """
         return self._state
 
     def get_token_p_step_count(self):
+        """
+        returns the total steps the token p has taken on the board
+        """
         return self._currentP
 
     def get_token_q_step_count(self):
+        """
+        returns the total steps the token q has taken on the board
+        """
         return self._currentQ
 
     def get_space_name(self, current):
+        """
+        returns the name of the space the token has landed on the board
+        """
         if current == -1:
             return 'H'
-        if current == 0:
+        elif current == 0:
             return 'R'
-        if current == 'E':
-            return self._position
-        if current in range(1, 8) or current in range(50, 57) or current in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6']:
-            return 'A'
-        if current in range(8, 22) or current in ['B1', 'B2', 'B3', 'B4', 'B5', 'B6']:
-            return 'B'
-        if current in range(22, 36) or current in ['C1', 'C2', 'C3', 'C4', 'C5', 'C6']:
-            return 'C'
-        if current in range(36, 50) or current in ['D1', 'D2', 'D3', 'D4', 'D5', 'D6']:
-            return 'D'
+        elif current == 'E':
+            return 'E'
+        elif current > 50:
+            return self._position + (current % 50)
+        else:
+            return str(current)
 
 
 class LudoGame:
     """
     represents the Ludo game as playing
+    contains information about the players and the state of the board
     """
     def __init__(self):
+        """
+        initializes the private data members
+        """
         self._list_players = {}
-        self._board = {}
+        self._board = []
+        self._home_squareA = []
+        self._home_squareB = []
+        self._home_squareC = []
+        self._home_squareD = []
 
     def play_game(self, players_area, turns1):
+        """
+        takes two parameters players' list with their positions and players' turns
+        creates players' objects from the given position
+        update the player's steps and the board state based on the turn list
+        returns a list of string with current steps of all token for each player after the turn list
+        """
         # initializes player with given info
         for pos in players_area:
             player = Player()
@@ -91,6 +145,28 @@ class LudoGame:
             player = turn[0]
             player = self._list_players[player]
             num = turn
+
+    def get_player_by_position(self, pos):
+        """
+        takes player's position
+        returns the player object
+        if not found, returns "Player not found!"
+        """
+        if pos in self._list_players:
+            return self._list_players[pos]
+        else:
+            return "Player not found!"
+
+    def move_token(self, player, token, step):
+        """
+        takes three parameters: player, token, and moving step
+        updates the token's total steps accordingly
+        kicks out opponent's token as needed
+        flags stalked if needed
+        follows the priority rule
+        """
+        pass
+
 
 
 
