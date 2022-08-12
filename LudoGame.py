@@ -247,11 +247,7 @@ class LudoGame:
             elif self._board[(player.get_start() + step_p + roll) % 56] != 0 and step_q + roll != step_p:
                 self.move_token(player, 'q', roll)
             else:
-                if step_p == -1:
-                    self.move_token(player, 'q', roll)
-                elif step_q == -1:
-                    self.move_token(player, 'p', roll)
-                elif step_p < step_q:
+                if step_p < step_q:
                     self.move_token(player, 'p', roll)
                 elif step_p > step_q:
                     self.move_token(player, 'q', roll)
