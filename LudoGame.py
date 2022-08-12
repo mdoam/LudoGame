@@ -299,10 +299,10 @@ class LudoGame:
                 player1 = self.get_player_by_position(other[0])
                 if token == 'p':
                     player1.set_step_p(-1)
-                    player1.set_current_p('H')
+                    player1.set_current_p(-1)
                 else:
                     player1.set_step_q(-1)
-                    player1.set_current_q('H')
+                    player1.set_current_q(-1)
             self._board[current_board] = [player.get_position(), token]
 
 
