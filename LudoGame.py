@@ -1,8 +1,7 @@
 # Author: Mi Do
 # GitHub username: mdoam
 # Date: 07/31/2022
-# Description: Ludo game
-
+# Description: The program simulates the Ludo game
 
 class Player:
     """
