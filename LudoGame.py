@@ -282,9 +282,7 @@ class LudoGame:
         if token == 'p':
             old_board = (player.get_token_p_step_count() + player.get_start()) % 56
             self._board[old_board] = 0
-            print(player.get_token_p_step_count())
             player.set_step_p(step)
-            print(player.get_token_p_step_count())
             player.set_current_p(player.get_token_p_step_count())
             total_step = player.get_token_p_step_count()
             current_board = (total_step + player.get_start()) % 56
@@ -300,7 +298,6 @@ class LudoGame:
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
                 self._board[current_board] = [{player.get_position(): token}]
-
 
 
 
