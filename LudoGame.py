@@ -57,7 +57,7 @@ class Player:
         self._stepP += step
         if self._stepP > 57:
             diff = self._stepP + 1 - 57
-            self._stepP = 57 - diff - 1
+            self._stepP = 57 + 1 - diff
 
     def set_step_q(self, step):
         """
@@ -171,8 +171,6 @@ class LudoGame:
         update the player's steps and the board state based on the turn list
         returns a list of string with current steps of all token for each player after the turn list
         """
-        print(players_area)
-        print(turns1)
         # initializes player with given info
         for pos in players_area:
             player = Player()
@@ -300,5 +298,4 @@ class LudoGame:
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
                 self._board[current_board] = {player.get_position(): token}
-
 
