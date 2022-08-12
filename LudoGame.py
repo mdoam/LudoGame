@@ -146,7 +146,7 @@ class Player:
             return 'R'
         elif current == 57:
             return 'E'
-        elif int(current) > 50:
+        elif current > 50:
             return str(self._position) + str(current % 50)
         else:
             return str((current + self._start - 1) % 56)
@@ -228,9 +228,9 @@ class LudoGame:
                     self.move_token(player, 'p', roll)
                     continue
 
-            if self._board[step_p + roll] != 0 and step_p + roll != step_q:
+            if self._board[(player.get_start() + step_p + roll) % 56] != 0 and step_p + roll != step_q:
                 self.move_token(player, 'p', roll)
-            elif self._board[step_q + roll] != 0 and step_q + roll != step_p:
+            elif self._board[(player.get_start() + step_p + roll) % 56] != 0 and step_q + roll != step_p:
                 self.move_token(player, 'q', roll)
             else:
                 if step_p == -1:
@@ -276,19 +276,8 @@ class LudoGame:
             player.set_current_p(player.get_token_p_step_count())
             total_step = player.get_token_p_step_count()
             current_board = (total_step + player.get_start()) % 56
-            if current_board > 50:
-                self._board[current_board].append([player.get_position(), token])
-            else:
-                if self._board[current_board] != 0:
-                    other = self._board[current_board]
-                    player1 = self.get_player_by_position(other[0])
-                    if token == 'p':
-                        player1.set_step_p(-1)
-                        player1.set_current_p(-1)
-                    else:
-                        player1.set_step_q(-1)
-                        player1.set_current_q(-1)
-                self._board[current_board] = [player.get_position(), token]
+            if self._board[current_board] == 0:
+                self._board[current_board] = [{player.get_position(): token}]
 
         else:
             old_board = (player.get_token_q_step_count() + player.get_start()) % 56
@@ -297,18 +286,8 @@ class LudoGame:
             player.set_current_q(player.get_token_q_step_count())
             total_step = player.get_token_q_step_count()
             current_board = (total_step + player.get_start()) % 56
-            if current_board > 50:
-                self._board[current_board].append([player.get_position(), token])
-            else:
-                if self._board[current_board] != 0:
-                    other = self._board[current_board]
-                    player1 = self.get_player_by_position(other[0])
-                    if token == 'p':
-                        player1.set_step_p(-1)
-                        player1.set_current_p(-1)
-                    else:
-                        player1.set_step_q(-1)
-                        player1.set_current_q(-1)
-                self._board[current_board] = [player.get_position(), token]
+            if self._board[current_board] == 0:
+                self._board[current_board] = [{player.get_position(): token}]
+
 
 
