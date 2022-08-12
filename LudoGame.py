@@ -198,13 +198,11 @@ class LudoGame:
                     step_p += 1
                     player.set_step_p(1)
                     player.set_current_p(step_p)
-
                     continue
                 elif step_q == -1:
                     step_q += 1
                     player.set_step_q(1)
                     player.set_current_q(step_q)
-
                     continue
 
             if step_p == step_q:
