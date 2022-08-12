@@ -56,8 +56,8 @@ class Player:
         """
         self._stepP += step
         if self._stepP > 57:
-            diff = self._stepP - 57
-            self._stepP = 57 - diff
+            diff = self._stepP + 1 - 57
+            self._stepP = 57 - diff - 1
 
     def set_step_q(self, step):
         """
@@ -208,9 +208,25 @@ class LudoGame:
                     continue
 
             if step_p == step_q:
+                if step_p == -1:
+                    continue
                 self.move_token(player, 'p', roll)
                 self.move_token(player, 'q', roll)
                 continue
+
+            if step_p == -1:
+                if step_q > -1:
+                    self.move_token(player, 'q', roll)
+                    continue
+                else:
+                    continue
+
+            if step_q == -1:
+                if step_p > -1:
+                    self.move_token(player, 'p', roll)
+                    continue
+                else:
+                    continue
 
             if step_p > 50 or step_q > 50:
                 if step_p + roll == 57:
@@ -272,7 +288,9 @@ class LudoGame:
         if token == 'p':
             old_board = (player.get_token_p_step_count() + player.get_start()) % 56
             self._board[old_board] = 0
+            print(player.get_token_p_step_count())
             player.set_step_p(step)
+            print(player.get_token_p_step_count())
             player.set_current_p(player.get_token_p_step_count())
             total_step = player.get_token_p_step_count()
             current_board = (total_step + player.get_start()) % 56
@@ -288,6 +306,7 @@ class LudoGame:
             current_board = (total_step + player.get_start()) % 56
             if self._board[current_board] == 0:
                 self._board[current_board] = [{player.get_position(): token}]
+
 
 
 
